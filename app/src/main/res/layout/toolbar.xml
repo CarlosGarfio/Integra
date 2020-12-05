@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<merge xmlns:android="http://schemas.android.com/apk/res/android">
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
@@ -22,7 +23,7 @@
                     android:layout_centerVertical="true"
                     android:layout_marginEnd="10dp"
                     android:src="@drawable/ic_back_arrow"
-                    android:tint="@android:color/black" />
+                    app:tint="@android:color/black" />
 
                 <ImageView
                     android:id="@+id/imgLogo"
@@ -31,7 +32,7 @@
                     android:layout_centerVertical="true"
                     android:layout_marginEnd="10dp"
                     android:layout_toEndOf="@+id/btnBackArrow"
-                    android:src="@android:color/black" />
+                    android:src="@drawable/logo" />
 
                 <TextView
                     android:id="@+id/txtTitle"
@@ -45,6 +46,15 @@
 
                 <ImageView
                     android:id="@+id/btnCustomAction"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="10dp"
+                    android:visibility="gone" />
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/imgProfile"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
                     android:layout_alignParentEnd="true"

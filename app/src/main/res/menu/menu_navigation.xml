@@ -9,6 +9,10 @@
         android:icon="@drawable/ic_favorite"
         android:title="@string/bottom_nav_favorite" />
     <item
+        android:id="@+id/navigation_settings"
+        android:icon="@drawable/ic_settings"
+        android:title="@string/bottom_nav_settings" />
+    <item
         android:id="@+id/navigation_shopping_cart"
         android:icon="@drawable/ic_shopping_cart"
         android:title="@string/bottom_nav_shopping_cart" />

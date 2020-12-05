@@ -5,6 +5,7 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -14,6 +15,8 @@ import android.view.ViewGroup;
 
 import com.adssystems.integra.R;
 import com.adssystems.integra.adapter.CatalogoAdapter;
+import com.adssystems.integra.adapter.PopularAdapter;
+import com.adssystems.integra.model.Articulo;
 import com.adssystems.integra.model.Catalogo;
 import com.adssystems.integra.util.Common;
 
@@ -26,8 +29,11 @@ public class HomeFragment extends Fragment {
 
     private RecyclerView rvCatalogo;
     private CatalogoAdapter catalogoAdapter;
-
     private List<Catalogo> catalogos;
+
+    private RecyclerView rvPopulares;
+    private PopularAdapter popularesAdapter;
+    private List<Articulo> articulos;
 
     public static HomeFragment newInstance() {
         return new HomeFragment();
@@ -43,12 +49,14 @@ public class HomeFragment extends Fragment {
         initActions();
         initStuff();
         initRecycler();
+        initRecyclerPopulares();
 
         return root;
     }
 
     void initComps() {
         rvCatalogo = root.findViewById(R.id.recyclerCatalogo);
+        rvPopulares = root.findViewById(R.id.recyclerPopular);
     }
 
     void initActions() {
@@ -56,6 +64,7 @@ public class HomeFragment extends Fragment {
 
     void initStuff() {
         catalogos = Common.getInstance(context).getCatalogos();
+        articulos = Common.getInstance(context).getArticulos();
     }
 
     void initRecycler() {
@@ -64,5 +73,13 @@ public class HomeFragment extends Fragment {
         LinearLayoutManager productsManager = new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false);
         rvCatalogo.setLayoutManager(productsManager);
         rvCatalogo.setAdapter(catalogoAdapter);
+    }
+
+    void initRecyclerPopulares() {
+        popularesAdapter = new PopularAdapter(context);
+        popularesAdapter.setArticulos(articulos);
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(context,2);
+        rvPopulares.setLayoutManager(gridLayoutManager);
+        rvPopulares.setAdapter(popularesAdapter);
     }
 }

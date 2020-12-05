@@ -6,18 +6,22 @@ import androidx.fragment.app.Fragment;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 
 import com.adssystems.integra.R;
+import com.adssystems.integra.model.Product;
+import com.adssystems.integra.util.Common;
 import com.adssystems.integra.util.SetUpToolBar;
+import com.google.android.material.badge.BadgeDrawable;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends AppCompatActivity implements
         BottomNavigationView.OnNavigationItemSelectedListener {
 
     private Activity fa;
+
     private BottomNavigationView bottomNavigationView;
     private SetUpToolBar toolBar;
 
@@ -29,6 +33,8 @@ public class MainActivity extends AppCompatActivity implements
         initComps();
         initActions();
         initStuff();
+
+        SetUpBadge();
     }
 
     void initComps() {
@@ -41,8 +47,11 @@ public class MainActivity extends AppCompatActivity implements
     }
 
     void initStuff() {
-        toolBar = new SetUpToolBar(fa, "Integra");
+        toolBar = new SetUpToolBar(fa, false, "Integra");
         toolBar.setTitle(getString(R.string.bottom_nav_home));
+
+        toolBar.setUpCustomAction(Common.getInstance(fa).getUser().url, () -> startActivity(new Intent(fa, ProfileActivity.class)));
+
         loadFragment(HomeFragment.newInstance());
     }
 
@@ -62,7 +71,7 @@ public class MainActivity extends AppCompatActivity implements
                 break;
             case R.id.navigation_shopping_cart:
                 toolBar.setTitle(getString(R.string.bottom_nav_shopping_cart));
-                fragment = null;
+                fragment = ShoppingCartFragment.newInstance();
                 break;
         }
         return loadFragment(fragment);
@@ -79,19 +88,18 @@ public class MainActivity extends AppCompatActivity implements
         return false;
     }
 
-//    public static void SetUpBadge(Context context) {
-//        List<Product> shoppingCart = Common.getInstance(context).getShoppingCart();
-//        BottomNavigationView navigationView = bottomNavigationView;
-//        if (navigationView == null) return;
-//        BadgeDrawable badgeDrawable = navigationView.getOrCreateBadge(R.id.navigation_shopping_cart);
-//        if (badgeDrawable == null) return;
-//        int count = 0;
-//        for (Product p : shoppingCart) {
-//            count += p.getQuantity();
-//        }
-//        badgeDrawable.setVisible(count != 0);
-//        badgeDrawable.setNumber(count);
-//    }
+    public void SetUpBadge() {
+        BottomNavigationView navigationView = bottomNavigationView;
+        if (navigationView == null) return;
+        BadgeDrawable badgeDrawable = navigationView.getOrCreateBadge(R.id.navigation_shopping_cart);
+        if (badgeDrawable == null) return;
+        int count = 0;
+        for (Product p : Common.getInstance(fa).getProducts()) {
+            count += p.quantity;
+        }
+        badgeDrawable.setVisible(count != 0);
+        badgeDrawable.setNumber(count);
+    }
 
     @Override
     public void onBackPressed() {
